@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Театры Краснодарского края</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   CSS TOKENS
+══════════════════════════════════════ */
+:root {
+  --bg:        #100608;
+  --bg2:       #160b0e;
+  --bg3:       #1e1014;
+  --surface:   rgba(255,255,255,.05);
+  --border:    rgba(196,148,60,.2);
+  --border2:   rgba(196,148,60,.4);
+  --gold:      #c4943c;
+  --gold2:     #e8c068;
+  --gold3:     #f5d88a;
+  --red:       #8b1a2e;
+  --red2:      #b52440;
+  --text:      #ecdcbf;
+  --text2:     rgba(236,220,191,.65);
+  --muted:     #8a7860;
+  --r:         3px;
+  --ff-serif:  'Cormorant Garamond', Georgia, serif;
+  --ff-sans:   'Outfit', system-ui, sans-serif;
+  --ease:      cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"] {
+  --bg:      #faf3e0;
+  --bg2:     #f2e8cc;
+  --bg3:     #ede0c0;
+  --surface: rgba(0,0,0,.04);
+  --border:  rgba(139,26,46,.15);
+  --border2: rgba(139,26,46,.35);
+  --text:    #1a0c08;
+  --text2:   rgba(26,12,8,.6);
+  --muted:   #6a5040;
+}
+
+/* ══ RESET ══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .35s,color .35s}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--ff-sans);cursor:pointer}
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* ══ PROGRESS BAR ══ */
+#progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--red2),var(--gold),var(--gold3));z-index:9000;pointer-events:none}
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+nav{
+  position:fixed;top:2px;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1rem,5vw,3.5rem);height:58px;
+  background:rgba(16,6,8,.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  transition:background .3s
+}
+[data-theme="light"] nav{background:rgba(250,243,224,.9)}
+nav.scrolled{background:rgba(16,6,8,.97)}
+[data-theme="light"] nav.scrolled{background:rgba(250,243,224,.98)}
+
+.nav-logo{display:flex;align-items:center;gap:.5rem;font-family:var(--ff-serif);font-size:1.05rem;color:var(--gold2);letter-spacing:.04em}
+.nav-logo span{color:var(--text2);font-size:.9em}
+
+.nav-links{display:flex;list-style:none;gap:2.2rem}
+.nav-links a{
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text2);
+  position:relative;transition:color .25s;padding-bottom:2px
+}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold2)}
+.nav-links a:hover::after{width:100%}
+
+.nav-r{display:flex;align-items:center;gap:.8rem}
+#themeBtn{
+  width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);
+  background:none;color:var(--muted);font-size:.85rem;
+  display:flex;align-items:center;justify-content:center;transition:.2s
+}
+#themeBtn:hover{border-color:var(--gold);color:var(--gold)}
+
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:5px}
+.burger span{width:22px;height:1.5px;background:var(--text);border-radius:2px;display:block;transition:.3s}
+
+@media(max-width:760px){
+  .nav-links{
+    display:none;flex-direction:column;
+    position:absolute;top:58px;inset-x:0;
+    background:rgba(16,6,8,.97);padding:1.5rem clamp(1rem,5vw,3.5rem);
+    gap:1.3rem;border-bottom:1px solid var(--border)
+  }
+  [data-theme="light"] .nav-links{background:rgba(250,243,224,.98)}
+  .nav-links.open{display:flex}
+  .burger{display:flex}
+}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+#hero{
+  min-height:100svh;display:grid;place-items:center;
+  position:relative;overflow:hidden;
+  /* Always dark background regardless of theme */
+  background:#100608
+}
+.h-beam{
+  position:absolute;top:-5%;left:50%;transform:translateX(-50%);
+  width:0;height:0;
+  border-left:28vw solid transparent;border-right:28vw solid transparent;
+  border-top:90svh solid rgba(196,148,60,.07);
+  filter:blur(28px);pointer-events:none
+}
+.h-beam2{border-top-color:rgba(139,26,46,.07);transform:translateX(-50%) scaleX(.55)}
+.h-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 110% 90% at 50% 50%,transparent 35%,rgba(16,6,8,.9));
+  pointer-events:none
+}
+.h-curtain{position:absolute;top:0;bottom:0;width:9vw;min-width:44px;pointer-events:none}
+.h-curtain-l{left:0;background:linear-gradient(90deg,rgba(10,2,4,.97),transparent)}
+.h-curtain-r{right:0;background:linear-gradient(270deg,rgba(10,2,4,.97),transparent)}
+
+.h-inner{position:relative;z-index:2;text-align:center;padding:clamp(1.5rem,5vw,4rem);max-width:820px;width:100%}
+.h-eye{
+  font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.8rem;
+  opacity:0;animation:fadeUp .8s .3s forwards
+}
+.h-title{
+  font-family:var(--ff-serif);font-weight:300;
+  font-size:clamp(2.8rem,8.5vw,6rem);line-height:1.04;
+  color:#f0dfc0;margin-bottom:.9rem;
+  opacity:0;animation:fadeUp .9s .5s forwards
+}
+.h-title em{font-style:italic;color:var(--gold2);display:block}
+.h-sub{
+  font-size:clamp(.88rem,2vw,1.05rem);color:rgba(236,220,191,.5);
+  max-width:500px;margin:0 auto 2.8rem;font-weight:300;line-height:1.85;
+  opacity:0;animation:fadeUp .9s .7s forwards
+}
+.h-btns{
+  display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .9s .9s forwards
+}
+
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 2.2rem;font-weight:500;font-size:.76rem;
+  letter-spacing:.1em;text-transform:uppercase;border-radius:var(--r);
+  border:none;transition:all .25s
+}
+.btn-gold{background:var(--gold);color:#100608}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(196,148,60,.4)}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn-outline:hover{background:rgba(196,148,60,.12);transform:translateY(-2px)}
+
+.h-stats{
+  display:flex;gap:clamp(1.2rem,4vw,3.5rem);justify-content:center;flex-wrap:wrap;
+  margin-top:3.5rem;padding-top:2.8rem;border-top:1px solid rgba(196,148,60,.2);
+  opacity:0;animation:fadeUp .9s 1.1s forwards
+}
+.stat{text-align:center}
+.stat-n{
+  font-family:var(--ff-serif);font-size:clamp(1.9rem,4vw,2.8rem);
+  font-weight:300;color:var(--gold2);line-height:1;display:block
+}
+.stat-l{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(236,220,191,.45);margin-top:.3rem}
+
+.h-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  color:rgba(196,148,60,.5);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  animation:scrollBob 2.4s ease-in-out infinite
+}
+.h-scroll::after{content:'';width:1px;height:44px;background:linear-gradient(to bottom,rgba(196,148,60,.5),transparent)}
+@keyframes scrollBob{0%,100%{opacity:.4;transform:translateX(-50%) translateY(0)}50%{opacity:.9;transform:translateX(-50%) translateY(-7px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ══════════════════════════════════════
+   SECTION COMMONS
+══════════════════════════════════════ */
+.section{padding:clamp(4rem,9vw,8rem) 0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 clamp(1rem,5vw,3.5rem)}
+.s-label{display:block;font-size:.63rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.s-title{font-family:var(--ff-serif);font-size:clamp(2.1rem,4.5vw,3.2rem);font-weight:300;line-height:1.1;margin-bottom:.7rem}
+.s-title em{font-style:italic;color:var(--gold2)}
+.s-desc{font-size:.93rem;color:var(--muted);max-width:560px;line-height:1.9;font-weight:300}
+.s-rule{width:44px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:1.6rem 0 3rem}
+
+/* Reveal on scroll */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv2{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rv2.in{opacity:1;transform:none}
+
+/* ══════════════════════════════════════
+   HISTORY TIMELINE
+══════════════════════════════════════ */
+#history{background:var(--bg2)}
+
+.timeline{position:relative;max-width:780px;margin:0 auto}
+.tl-line{
+  position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom,transparent,var(--gold) 5%,var(--gold) 95%,transparent);
+  transform:translateX(-50%)
+}
+.tl-row{
+  display:grid;grid-template-columns:1fr 60px 1fr;
+  margin-bottom:clamp(1.8rem,4vw,3.5rem);
+  opacity:0;transform:translateY(18px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease)
+}
+.tl-row.in{opacity:1;transform:none}
+.tl-row:nth-child(odd) .tl-side{grid-column:1;text-align:right;padding-right:clamp(1rem,2.5vw,2.2rem)}
+.tl-row:nth-child(odd) .tl-pin{grid-column:2}
+.tl-row:nth-child(odd) .tl-void{grid-column:3}
+.tl-row:nth-child(even) .tl-void{grid-column:1}
+.tl-row:nth-child(even) .tl-pin{grid-column:2}
+.tl-row:nth-child(even) .tl-side{grid-column:3;padding-left:clamp(1rem,2.5vw,2.2rem)}
+.tl-pin{display:flex;justify-content:center;padding-top:.45rem}
+.tl-pip{
+  width:14px;height:14px;border-radius:50%;flex-shrink:0;
+  background:var(--bg2);border:2px solid var(--gold);
+  box-shadow:0 0 0 3px rgba(196,148,60,.18),0 0 14px rgba(196,148,60,.3);
+  transition:.4s
+}
+.tl-row.in .tl-pip{background:var(--gold)}
+.tl-yr{font-family:var(--ff-serif);font-size:1.5rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:.35rem}
+.tl-h{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.tl-p{font-size:.8rem;color:var(--muted);line-height:1.8;font-weight:300}
+
+@media(max-width:580px){
+  .tl-line{left:16px}
+  .tl-row{grid-template-columns:32px 1fr}
+  .tl-row:nth-child(odd) .tl-side,
+  .tl-row:nth-child(even) .tl-side{grid-column:2;text-align:left;padding-left:1.2rem;padding-right:0}
+  .tl-row:nth-child(odd) .tl-pin,
+  .tl-row:nth-child(even) .tl-pin{grid-column:1;justify-content:center;padding-left:0}
+  .tl-void{display:none}
+  .tl-yr{font-size:1.15rem}
+}
+
+/* ══════════════════════════════════════
+   THEATERS GRID
+══════════════════════════════════════ */
+#theaters{background:var(--bg)}
+.t-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+  gap:1px;background:var(--border);
+  margin-top:2.5rem
+}
+.t-card{
+  background:var(--bg);display:flex;flex-direction:column;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .55s var(--ease),transform .55s var(--ease),background .2s
+}
+.t-card.in{opacity:1;transform:none}
+.t-card:hover{background:rgba(196,148,60,.04)}
+.t-bar{height:3px}
+.t-body{padding:1.8rem;flex:1}
+.t-em{font-size:1.9rem;margin-bottom:1rem;display:block}
+.t-name{font-family:var(--ff-serif);font-size:1.2rem;font-weight:400;color:var(--text);line-height:1.3;margin-bottom:.6rem}
+.t-desc{font-size:.8rem;color:var(--muted);line-height:1.8;font-weight:300}
+.t-meta{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border)}
+.t-meta-item{padding:.85rem 1.1rem}
+.t-meta-item:nth-child(odd){border-right:1px solid var(--border)}
+.t-meta-item:nth-child(3),.t-meta-item:nth-child(4){border-top:1px solid var(--border)}
+.t-ml{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:.2rem}
+.t-mv{font-size:.82rem;color:var(--text);font-weight:500}
+.t-toggle{
+  width:100%;padding:.8rem;background:none;border:none;
+  border-top:1px solid var(--border);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);transition:.2s
+}
+.t-toggle:hover{background:rgba(196,148,60,.07)}
+.t-extra{max-height:0;overflow:hidden;transition:max-height .42s var(--ease)}
+.t-extra.open{max-height:240px}
+.t-extra-inner{
+  padding:1.3rem 1.8rem 1.6rem;
+  font-size:.8rem;color:var(--muted);line-height:1.85;font-weight:300;
+  border-top:1px solid var(--border);background:rgba(196,148,60,.025)
+}
+.t-extra-inner b{color:var(--text);font-weight:600}
+
+/* ══════════════════════════════════════
+   MAP  (iframe — works everywhere)
+══════════════════════════════════════ */
+#map-sec{background:var(--bg3)}
+.map-frame-wrap{margin-top:2.5rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--border)}
+.map-frame-wrap iframe{width:100%;height:clamp(340px,50vw,500px);border:none;display:block}
+.map-cards{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1px;background:var(--border);margin-top:1px
+}
+.map-card{
+  background:var(--bg3);padding:1rem 1.2rem;
+  display:flex;align-items:flex-start;gap:.7rem
+}
+.map-card-dot{
+  width:9px;height:9px;border-radius:50%;flex-shrink:0;
+  margin-top:.35rem;box-shadow:0 0 6px currentColor
+}
+.map-card-text{font-size:.78rem;color:var(--text);line-height:1.5}
+.map-card-sub{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+
+/* ══════════════════════════════════════
+   SURVEY CHARTS
+══════════════════════════════════════ */
+#survey{background:var(--bg2)}
+.survey-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);margin-top:2.5rem}
+@media(max-width:680px){.survey-grid{grid-template-columns:1fr}}
+.chart-box{background:var(--bg2);padding:2rem}
+.cb-h{font-family:var(--ff-serif);font-size:1.1rem;color:var(--text);margin-bottom:.25rem}
+.cb-s{font-size:.7rem;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
+
+.bar-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.85rem}
+.br-lbl{font-size:.75rem;color:var(--text);min-width:148px;flex-shrink:0;line-height:1.4}
+.br-track{flex:1;height:24px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;position:relative}
+[data-theme="light"] .br-track{background:rgba(0,0,0,.07)}
+.br-fill{height:100%;border-radius:2px;width:0;transition:width 1.3s cubic-bezier(.16,1,.3,1);position:relative}
+.br-pct{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.68rem;font-weight:600;color:#fff;white-space:nowrap;pointer-events:none}
+
+.donut-area{display:flex;align-items:center;gap:1.8rem;flex-wrap:wrap}
+.donut-legend{display:flex;flex-direction:column;gap:.6rem}
+.dl-row{display:flex;align-items:center;gap:.55rem;font-size:.76rem;color:var(--text)}
+.dl-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+.survey-note{
+  margin-top:2px;padding:1.5rem 2rem;
+  background:var(--bg2);border-left:2px solid var(--red2);
+  font-size:.85rem;color:var(--muted);line-height:1.9;font-weight:300
+}
+.survey-note b{color:var(--text)}
+
+/* ══════════════════════════════════════
+   GENRES
+══════════════════════════════════════ */
+#genres{background:var(--bg)}
+.g-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));
+  gap:1px;background:var(--border);margin-top:2.5rem
+}
+.g-card{
+  background:var(--bg);padding:1.8rem 1.4rem;text-align:center;
+  opacity:0;transform:scale(.95);
+  transition:opacity .5s var(--ease),transform .5s var(--ease),background .2s
+}
+.g-card.in{opacity:1;transform:none}
+.g-card:hover{background:rgba(196,148,60,.05)}
+.g-em{font-size:2.2rem;margin-bottom:.9rem;display:block}
+.g-name{font-family:var(--ff-serif);font-size:1.05rem;color:var(--text);margin-bottom:.5rem}
+.g-txt{font-size:.77rem;color:var(--muted);line-height:1.75;font-weight:300}
+
+/* ══════════════════════════════════════
+   QUIZ
+══════════════════════════════════════ */
+#quiz{background:var(--bg3)}
+#quiz .s-title{color:var(--text)}
+.quiz-wrap{max-width:660px;margin:2.5rem auto 0}
+.q-card{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--r);padding:clamp(1.5rem,4vw,2.5rem)
+}
+
+.q-dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.8rem}
+.q-d{width:24px;height:3px;background:rgba(196,148,60,.2);border-radius:2px;transition:.3s}
+.q-d.active{background:var(--gold2)}
+.q-d.ok{background:#52a870}
+.q-d.bad{background:#c04040}
+
+.q-timer-row{display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem}
+.q-t-bar{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+[data-theme="light"] .q-t-bar{background:rgba(0,0,0,.1)}
+.q-t-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .98s linear,background .3s}
+.q-t-fill.warn{background:#d08030}
+.q-t-fill.danger{background:#c04040}
+.q-t-num{font-size:.72rem;color:var(--muted);min-width:18px;text-align:right;font-variant-numeric:tabular-nums}
+
+.q-ctr{font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+.q-text{font-family:var(--ff-serif);font-size:clamp(1.05rem,2.5vw,1.22rem);color:var(--text);line-height:1.55;margin-bottom:1.6rem}
+.q-opts{display:flex;flex-direction:column;gap:.55rem}
+.q-opt{
+  display:flex;align-items:center;gap:.85rem;
+  padding:.9rem 1.1rem;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);color:var(--text);
+  font-size:.83rem;text-align:left;transition:all .2s
+}
+.q-opt:hover:not(:disabled){border-color:var(--border2);background:rgba(196,148,60,.08);transform:translateX(3px)}
+.q-opt:disabled{cursor:default;transform:none}
+.q-opt.correct{border-color:#52a870;background:rgba(82,168,112,.14)}
+.q-opt.wrong{border-color:#c04040;background:rgba(192,64,64,.14)}
+.q-letter{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:600;color:var(--gold);transition:.2s
+}
+.q-opt.correct .q-letter{background:#52a870;border-color:#52a870;color:#fff}
+.q-opt.wrong .q-letter{background:#c04040;border-color:#c04040;color:#fff}
+
+.q-exp{
+  margin-top:1.1rem;padding:.95rem 1.1rem;
+  background:rgba(196,148,60,.09);border-left:2px solid var(--gold);
+  border-radius:0 var(--r) var(--r) 0;
+  font-size:.8rem;color:var(--muted);line-height:1.75;display:none
+}
+.q-exp.show{display:block}
+
+.q-foot{display:flex;align-items:center;justify-content:space-between;margin-top:1.6rem;gap:1rem;flex-wrap:wrap}
+.q-sc{font-size:.72rem;color:var(--muted)}
+.q-sc span{color:var(--gold);font-weight:600}
+.btn-next{
+  padding:.72rem 1.8rem;background:var(--gold);color:#100608;
+  font-weight:600;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  border:none;border-radius:var(--r);opacity:.35;pointer-events:none;transition:.2s
+}
+.btn-next.on{opacity:1;pointer-events:all}
+.btn-next.on:hover{background:var(--gold2);transform:translateY(-1px)}
+
+/* Result */
+.q-result{text-align:center;padding:1rem 0}
+.res-circle{width:110px;height:110px;margin:0 auto 1.4rem;position:relative}
+.res-circle svg{width:100%;height:100%}
+.res-over{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.res-big{font-family:var(--ff-serif);font-size:3rem;font-weight:300;color:var(--gold);line-height:1}
+.res-of{font-size:.68rem;color:var(--muted);letter-spacing:.1em}
+.res-title{font-family:var(--ff-serif);font-size:1.7rem;color:var(--text);margin-bottom:.6rem}
+.res-msg{font-size:.83rem;color:var(--muted);max-width:420px;margin:0 auto 1.8rem;line-height:1.85}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:1.4rem 0}
+.rs{background:var(--bg);padding:.9rem}
+.rs-n{font-family:var(--ff-serif);font-size:1.5rem;color:var(--gold)}
+.rs-l{font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.15rem}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer{
+  background:var(--bg);border-top:1px solid var(--border);
+  padding:clamp(3rem,6vw,5rem) clamp(1rem,5vw,3.5rem);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:2rem
+}
+.f-brand{font-family:var(--ff-serif);font-size:1.4rem;color:var(--gold2);margin-bottom:.35rem}
+.f-meta{font-size:.76rem;color:var(--muted);line-height:2}
+.f-right{font-size:.72rem;color:var(--muted);text-align:right;line-height:1.9}
+@media(max-width:580px){footer{flex-direction:column;text-align:center}.f-right{text-align:center}}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ══ NAV ══ -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">🎭 <span>Театры</span> Краснодарского края</a>
+  <ul class="nav-links" id="navMenu">
+    <li><a href="#history" onclick="closeNav()">История</a></li>
+    <li><a href="#theaters" onclick="closeNav()">Театры</a></li>
+    <li><a href="#map-sec" onclick="closeNav()">Карта</a></li>
+    <li><a href="#survey" onclick="closeNav()">Опрос</a></li>
+    <li><a href="#genres" onclick="closeNav()">Жанры</a></li>
+    <li><a href="#quiz" onclick="closeNav()">Викторина</a></li>
+  </ul>
+  <div class="nav-r">
+    <button id="themeBtn" title="Тема" onclick="toggleTheme()">☀</button>
+    <button class="burger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="h-beam"></div>
+  <div class="h-beam h-beam2"></div>
+  <div class="h-curtain h-curtain-l"></div>
+  <div class="h-curtain h-curtain-r"></div>
+  <div class="h-vignette"></div>
+  <div class="h-inner">
+    <p class="h-eye">Индивидуальный проект · Белый Александр · Гимназия №82 · 2026</p>
+    <h1 class="h-title">История театров<em>Краснодарского края</em></h1>
+    <p class="h-sub">Почти двести лет театральной жизни — от гастрольных трупп казачьей крепости до балетного театра с мировой репутацией</p>
+    <div class="h-btns">
+      <a href="#history" class="btn btn-gold">Изучить историю</a>
+      <a href="#quiz" class="btn btn-outline">Пройти викторину</a>
+    </div>
+    <div class="h-stats">
+      <div class="stat"><span class="stat-n" data-to="15" data-suf="+">0</span><span class="stat-l">Театров в крае</span></div>
+      <div class="stat"><span class="stat-n" data-to="180">0</span><span class="stat-l">Лет традиций</span></div>
+      <div class="stat"><span class="stat-n" data-to="5">0</span><span class="stat-l">Театров Краснодара</span></div>
+      <div class="stat"><span class="stat-n" data-to="87">0</span><span class="stat-l">Учащихся опрошено</span></div>
+    </div>
+  </div>
+  <div class="h-scroll">прокрутите</div>
+</section>
+
+<!-- ══ ИСТОРИЯ ══ -->
+<section id="history" class="section">
+<div class="wrap">
+  <span class="s-label rv">01 — История</span>
+  <h2 class="s-title rv">Путь длиной <em>в два столетия</em></h2>
+  <p class="s-desc rv">От любительских постановок в частных домах Екатеринодара до академических театров с международными гастролями.</p>
+  <div class="s-rule rv"></div>
+
+  <div class="timeline">
+    <div class="tl-line"></div>
+
+    <div class="tl-row">
+      <div class="tl-side"><div class="tl-yr">1840-е</div><div class="tl-h">Первые представления</div><div class="tl-p">Гастрольные труппы и любительские постановки в частных домах. Водевили и комедии для немногочисленной публики Екатеринодара.</div></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-void"></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-void"></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-side"><div class="tl-yr">1865</div><div class="tl-h">Первое здание</div><div class="tl-p">Деревянный зал на 400 мест — первая специальная театральная постройка. Сгорит в 1873-м, но заложит традицию.</div></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-side"><div class="tl-yr">1879</div><div class="tl-h">Театр Мальгерба</div><div class="tl-p">Каменное здание арх. Ивана Мальгерба — первая профессиональная сцена Кубани. Островский, Гоголь, Грибоедов. Гастроли Савиной и Комиссаржевской.</div></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-void"></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-void"></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-side"><div class="tl-yr">1920</div><div class="tl-h">Театр драмы</div><div class="tl-p">После переименования города создаётся государственный театр драмы. Советская власть видит в театре главный инструмент просвещения.</div></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-side"><div class="tl-yr">1933–36</div><div class="tl-h">Театральная система</div><div class="tl-p">1933 — Театр музыкальной комедии (будущий Музыкальный театр). 1936 — Театр кукол. Краснодар получает разветвлённую сеть профессиональных сцен.</div></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-void"></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-void"></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-side"><div class="tl-yr">1942–43</div><div class="tl-h">Война и оккупация</div><div class="tl-p">6 месяцев оккупации. Здания разрушены, труппы эвакуированы, многие артисты — на фронте. Театр возобновил работу уже в 1946 году.</div></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-side"><div class="tl-yr">1964</div><div class="tl-h">Имя Горького</div><div class="tl-p">Театру драмы присвоено имя Максима Горького. Один из ведущих театров Юга СССР — активные гастроли, всесоюзные фестивали.</div></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-void"></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-void"></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-side"><div class="tl-yr">2009–11</div><div class="tl-h">Новая эпоха</div><div class="tl-p">Реконструкции театров. Академический статус. И главное — в 2011 году открывается Театр балета им. Григоровича: единственный региональный балетный театр России.</div></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-side"><div class="tl-yr">Сегодня</div><div class="tl-h">Мировой уровень</div><div class="tl-p">15+ театров, международные гастроли, фестивали. Краснодарский край — один из самых насыщенных театральных регионов страны.</div></div>
+      <div class="tl-pin"><div class="tl-pip"></div></div>
+      <div class="tl-void"></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ══ ТЕАТРЫ ══ -->
+<section id="theaters" class="section">
+<div class="wrap">
+  <span class="s-label rv">02 — Театры</span>
+  <h2 class="s-title rv">Театры <em>Краснодара</em></h2>
+  <p class="s-desc rv">Шесть профессиональных площадок — каждая со своим жанром и аудиторией.</p>
+  <div class="s-rule rv"></div>
+</div>
+<div style="max-width:1100px;margin:0 auto;padding:0 clamp(1rem,5vw,3.5rem)">
+<div class="t-grid">
+
+  <div class="t-card rv2">
+    <div class="t-bar" style="background:linear-gradient(90deg,#8b1a2e,#c4943c)"></div>
+    <div class="t-body">
+      <span class="t-em">🎭</span>
+      <div class="t-name">Театр драмы им. М. Горького</div>
+      <div class="t-desc">Старейший театр Юга России. Более ста лет — главная драматическая сцена региона. Академический статус с 2009 года.</div>
+    </div>
+    <div class="t-meta">
+      <div class="t-meta-item"><div class="t-ml">Основан</div><div class="t-mv">1920</div></div>
+      <div class="t-meta-item"><div class="t-ml">Зал</div><div class="t-mv">990 мест</div></div>
+      <div class="t-meta-item"><div class="t-ml">Жанр</div><div class="t-mv">Драма, классика</div></div>
+      <div class="t-meta-item"><div class="t-ml">Статус</div><div class="t-mv">Академический</div></div>
+    </div>
+    <button class="t-toggle" onclick="toggleCard(this)">▸ Подробнее</button>
+    <div class="t-extra"><div class="t-extra-inner"><b>Репертуар:</b> Чехов, Островский, Гоголь, Шекспир, Мольер, современные авторы.<br><br><b>Особенности:</b> Главная и малая сцены. Просветительская работа со школами. Режиссёры московского уровня.</div></div>
+  </div>
+
+  <div class="t-card rv2">
+    <div class="t-bar" style="background:linear-gradient(90deg,#4a0e4e,#c4943c)"></div>
+    <div class="t-body">
+      <span class="t-em">🎼</span>
+      <div class="t-name">Музыкальный театр</div>
+      <div class="t-desc">С 1933 года. Крупнейшая музыкальная сцена края — собственный оркестр, хор, балетная труппа. Реконструкция 2009–2011.</div>
+    </div>
+    <div class="t-meta">
+      <div class="t-meta-item"><div class="t-ml">Основан</div><div class="t-mv">1933</div></div>
+      <div class="t-meta-item"><div class="t-ml">Зал</div><div class="t-mv">820 мест</div></div>
+      <div class="t-meta-item"><div class="t-ml">Жанр</div><div class="t-mv">Оперетта, мюзикл</div></div>
+      <div class="t-meta-item"><div class="t-ml">Реконструкция</div><div class="t-mv">2009–2011</div></div>
+    </div>
+    <button class="t-toggle" onclick="toggleCard(this)">▸ Подробнее</button>
+    <div class="t-extra"><div class="t-extra-inner"><b>Репертуар:</b> Кальман «Сильва», Штраус «Летучая мышь», мюзиклы «Чикаго», «Кабаре».<br><br><b>Труппа:</b> лауреаты международных конкурсов. Оборудование мирового класса.</div></div>
+  </div>
+
+  <div class="t-card rv2">
+    <div class="t-bar" style="background:linear-gradient(90deg,#1c2841,#c4943c)"></div>
+    <div class="t-body">
+      <span class="t-em">🩰</span>
+      <div class="t-name">Театр балета Ю. Григоровича</div>
+      <div class="t-desc">Единственный в России региональный балетный театр. Открыт в 2011-м. Академический с 2020-го. Гастроли на трёх континентах.</div>
+    </div>
+    <div class="t-meta">
+      <div class="t-meta-item"><div class="t-ml">Основан</div><div class="t-mv">2011</div></div>
+      <div class="t-meta-item"><div class="t-ml">Зал</div><div class="t-mv">970 мест</div></div>
+      <div class="t-meta-item"><div class="t-ml">Жанр</div><div class="t-mv">Балет</div></div>
+      <div class="t-meta-item"><div class="t-ml">Статус</div><div class="t-mv">Академический</div></div>
+    </div>
+    <button class="t-toggle" onclick="toggleCard(this)">▸ Подробнее</button>
+    <div class="t-extra"><div class="t-extra-inner"><b>Репертуар:</b> «Лебединое озеро», «Щелкунчик», балеты Григоровича «Спартак», «Иван Грозный».<br><br><b>Гастроли:</b> Германия, Франция, США, Испания, Китай, Япония.</div></div>
+  </div>
+
+  <div class="t-card rv2">
+    <div class="t-bar" style="background:linear-gradient(90deg,#5c2000,#e89840)"></div>
+    <div class="t-body">
+      <span class="t-em">🎨</span>
+      <div class="t-name">Театр кукол</div>
+      <div class="t-desc">Один из старейших кукольных театров России, основан в 1936 году. Работает для всех возрастов — от малышей до взрослых.</div>
+    </div>
+    <div class="t-meta">
+      <div class="t-meta-item"><div class="t-ml">Основан</div><div class="t-mv">1936</div></div>
+      <div class="t-meta-item"><div class="t-ml">Зал</div><div class="t-mv">350 мест</div></div>
+      <div class="t-meta-item"><div class="t-ml">Жанр</div><div class="t-mv">Кукольный</div></div>
+      <div class="t-meta-item"><div class="t-ml">Аудитория</div><div class="t-mv">0+ / 18+</div></div>
+    </div>
+    <button class="t-toggle" onclick="toggleCard(this)">▸ Подробнее</button>
+    <div class="t-extra"><div class="t-extra-inner"><b>Техники:</b> тростевые куклы, марионетки, теневой театр, видеопроекции.<br><br><b>Образование:</b> мастер-классы, экскурсии за кулисы, сотрудничество со школами.</div></div>
+  </div>
+
+  <div class="t-card rv2">
+    <div class="t-bar" style="background:linear-gradient(90deg,#1a3a6b,#4a90c9)"></div>
+    <div class="t-body">
+      <span class="t-em">⚡</span>
+      <div class="t-name">Молодёжный театр</div>
+      <div class="t-desc">Язык своего времени. Иммерсивные форматы, перформансы, актуальная драматургия. Аудитория — 14–35 лет.</div>
+    </div>
+    <div class="t-meta">
+      <div class="t-meta-item"><div class="t-ml">Основан</div><div class="t-mv">2010-е</div></div>
+      <div class="t-meta-item"><div class="t-ml">Зал</div><div class="t-mv">250 мест</div></div>
+      <div class="t-meta-item"><div class="t-ml">Жанр</div><div class="t-mv">Совр. драма</div></div>
+      <div class="t-meta-item"><div class="t-ml">Аудитория</div><div class="t-mv">14–35 лет</div></div>
+    </div>
+    <button class="t-toggle" onclick="toggleCard(this)">▸ Подробнее</button>
+    <div class="t-extra"><div class="t-extra-inner"><b>Форматы:</b> иммерсивные спектакли, спектакли-дискуссии, перформансы.<br><br><b>Темы:</b> поиск идентичности, первая любовь, конфликт поколений, цифровой мир.</div></div>
+  </div>
+
+  <div class="t-card rv2">
+    <div class="t-bar" style="background:linear-gradient(90deg,#0a4a3a,#2ab893)"></div>
+    <div class="t-body">
+      <span class="t-em">🌊</span>
+      <div class="t-name">Театры региона</div>
+      <div class="t-desc">Новороссийск, Сочи, Армавир, Анапа, Геленджик, Ейск — более 10 профессиональных театров за пределами краевого центра.</div>
+    </div>
+    <div class="t-meta">
+      <div class="t-meta-item"><div class="t-ml">Городов</div><div class="t-mv">6+</div></div>
+      <div class="t-meta-item"><div class="t-ml">Театров</div><div class="t-mv">10+</div></div>
+      <div class="t-meta-item"><div class="t-ml">Жанры</div><div class="t-mv">Все</div></div>
+      <div class="t-meta-item"><div class="t-ml">Охват</div><div class="t-mv">Весь край</div></div>
+    </div>
+    <button class="t-toggle" onclick="toggleCard(this)">▸ Подробнее</button>
+    <div class="t-extra"><div class="t-extra-inner"><b>Сочи:</b> масштабные летние гастроли из Москвы и Петербурга.<br><br><b>Новороссийск:</b> драм. театр с 1920 г., сильный патриотический репертуар.</div></div>
+  </div>
+
+</div>
+</div>
+</section>
+
+<!-- ══ КАРТА ══ -->
+<section id="map-sec" class="section">
+<div class="wrap">
+  <span class="s-label rv">03 — Карта</span>
+  <h2 class="s-title rv">Театры на <em>карте края</em></h2>
+  <p class="s-desc rv">Основные театральные площадки Краснодара и региона.</p>
+  <div class="s-rule rv"></div>
+
+  <!-- iframe map - works without JS libraries -->
+  <div class="map-frame-wrap rv">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d233895.22!2d38.9762!3d45.0424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s%D1%82%D0%B5%D0%B0%D1%82%D1%80%20%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%BE%D0%B4%D0%B0%D1%80!5e0!3m2!1sru!2sru!4v1700000000000!5m2!1sru!2sru"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="Театры Краснодарского края">
+    </iframe>
+  </div>
+
+  <!-- Static card list as fallback / supplement -->
+  <div class="map-cards rv" style="margin-top:1px">
+    <div class="map-card">
+      <div class="map-card-dot" style="color:#c4943c;background:#c4943c"></div>
+      <div><div class="map-card-text">Театр драмы им. Горького</div><div class="map-card-sub">ул. Красная, 55 · Краснодар</div></div>
+    </div>
+    <div class="map-card">
+      <div class="map-card-dot" style="color:#c4943c;background:#c4943c"></div>
+      <div><div class="map-card-text">Музыкальный театр</div><div class="map-card-sub">ул. Красная, 44 · Краснодар</div></div>
+    </div>
+    <div class="map-card">
+      <div class="map-card-dot" style="color:#c4943c;background:#c4943c"></div>
+      <div><div class="map-card-text">Театр балета Григоровича</div><div class="map-card-sub">ул. Новороссийская, 190</div></div>
+    </div>
+    <div class="map-card">
+      <div class="map-card-dot" style="color:#c4943c;background:#c4943c"></div>
+      <div><div class="map-card-text">Театр кукол</div><div class="map-card-sub">ул. Красноармейская, 124</div></div>
+    </div>
+    <div class="map-card">
+      <div class="map-card-dot" style="color:#4a90c9;background:#4a90c9"></div>
+      <div><div class="map-card-text">Новороссийский драм. театр</div><div class="map-card-sub">Новороссийск · осн. 1920</div></div>
+    </div>
+    <div class="map-card">
+      <div class="map-card-dot" style="color:#4a90c9;background:#4a90c9"></div>
+      <div><div class="map-card-text">Театры Сочи</div><div class="map-card-sub">Сочи · летний сезон</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ ОПРОС ══ -->
+<section id="survey" class="section">
+<div class="wrap">
+  <span class="s-label rv">04 — Анкетирование</span>
+  <h2 class="s-title rv">Результаты <em>опроса</em></h2>
+  <p class="s-desc rv">87 учащихся 10–11 классов гимназии №82, февраль 2026 г. Анонимное письменное анкетирование.</p>
+  <div class="s-rule rv"></div>
+
+  <div class="survey-grid">
+
+    <div class="chart-box rv2">
+      <div class="cb-h">Посещаете ли вы театры?</div>
+      <div class="cb-s">Вопрос 1 · n = 87 учащихся · 10–11 классы</div>
+      <div class="bar-row">
+        <span class="br-lbl">Иногда, 1–2 раза в год</span>
+        <div class="br-track"><div class="br-fill" data-w="34" style="background:linear-gradient(90deg,#8b1a2e,#c4943c)"><span class="br-pct">34%</span></div></div>
+      </div>
+      <div class="bar-row">
+        <span class="br-lbl">Редко, раз в неск. лет</span>
+        <div class="br-track"><div class="br-fill" data-w="31" style="background:linear-gradient(90deg,#6b3020,#c47840)"><span class="br-pct">31%</span></div></div>
+      </div>
+      <div class="bar-row">
+        <span class="br-lbl">Нет, не посещаю</span>
+        <div class="br-track"><div class="br-fill" data-w="23" style="background:linear-gradient(90deg,#444,#777)"><span class="br-pct">23%</span></div></div>
+      </div>
+      <div class="bar-row">
+        <span class="br-lbl">Да, регулярно</span>
+        <div class="br-track"><div class="br-fill" data-w="12" style="background:linear-gradient(90deg,#1a5c2a,#3a9c5a)"><span class="br-pct">12%</span></div></div>
+      </div>
+    </div>
+
+    <div class="chart-box rv2">
+      <div class="cb-h">Кино или театр?</div>
+      <div class="cb-s">Вопрос 2 · «Что вам нравится больше?»</div>
+      <div class="donut-area">
+        <svg id="donutSvg" width="130" height="130" viewBox="0 0 130 130">
+          <circle cx="65" cy="65" r="48" fill="none" stroke="rgba(128,100,60,.15)" stroke-width="22"/>
+        </svg>
+        <div class="donut-legend">
+          <div class="dl-row"><div class="dl-sq" style="background:#c04040"></div>Кино — <b style="margin-left:.2rem">54%</b></div>
+          <div class="dl-row"><div class="dl-sq" style="background:#8b1a2e"></div>Театр — <b style="margin-left:.2rem">22%</b></div>
+          <div class="dl-row"><div class="dl-sq" style="background:#c4943c"></div>Одинаково — <b style="margin-left:.2rem">18%</b></div>
+          <div class="dl-row"><div class="dl-sq" style="background:#555"></div>Не знаю — <b style="margin-left:.2rem">6%</b></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="survey-note rv2">
+    <b>Вывод:</b> 46% учащихся посещают театр хотя бы иногда, однако регулярных зрителей лишь 12%. Кино лидирует в предпочтениях (54%), но <b>40% опрошенных</b> либо предпочитают театр, либо ценят оба вида одинаково — это значимый резерв аудитории, который можно привлечь через информирование и доступность.
+  </div>
+</div>
+</section>
+
+<!-- ══ ЖАНРЫ ══ -->
+<section id="genres" class="section">
+<div class="wrap">
+  <span class="s-label rv">05 — Жанры</span>
+  <h2 class="s-title rv">Театральные <em>жанры</em></h2>
+  <p class="s-desc rv">Край охватывает весь спектр театрального искусства — от классической драмы до кукольного авангарда.</p>
+  <div class="s-rule rv"></div>
+</div>
+<div style="max-width:1100px;margin:0 auto;padding:0 clamp(1rem,5vw,3.5rem)">
+<div class="g-grid">
+  <div class="g-card rv2"><span class="g-em">🎭</span><div class="g-name">Драма</div><p class="g-txt">Исследует конфликты и судьбы. Главный жанр русской театральной традиции.</p></div>
+  <div class="g-card rv2"><span class="g-em">😄</span><div class="g-name">Комедия</div><p class="g-txt">Смех как зеркало общества — часто острее любой трагедии.</p></div>
+  <div class="g-card rv2"><span class="g-em">🎶</span><div class="g-name">Оперетта</div><p class="g-txt">Музыка, танец, лёгкий сюжет. Виртуозно сложна для исполнения.</p></div>
+  <div class="g-card rv2"><span class="g-em">🩰</span><div class="g-name">Балет</div><p class="g-txt">Язык тела, передающий то, для чего нет слов. Высочайшее мастерство.</p></div>
+  <div class="g-card rv2"><span class="g-em">🎤</span><div class="g-name">Мюзикл</div><p class="g-txt">Синтез драмы, песни и танца. Популярнейший жанр у молодёжи.</p></div>
+  <div class="g-card rv2"><span class="g-em">🪆</span><div class="g-name">Кукольный</div><p class="g-txt">Не только для детей — метафора, философия и удивление.</p></div>
+</div>
+</div>
+</section>
+
+<!-- ══ ВИКТОРИНА ══ -->
+<section id="quiz" class="section">
+<div class="wrap">
+  <span class="s-label rv">06 — Викторина</span>
+  <h2 class="s-title rv">Проверьте <em>свои знания</em></h2>
+  <p class="s-desc rv" style="color:var(--muted)">15 вопросов о театрах Краснодарского края. Таймер 20 с на вопрос. После ответа — объяснение.</p>
+  <div class="s-rule rv" style="background:linear-gradient(90deg,var(--gold),transparent)"></div>
+  <div class="quiz-wrap">
+    <div class="q-card" id="qCard">
+      <div id="qBox"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div>
+    <div class="f-brand">🎭 Театры Краснодарского края</div>
+    <div class="f-meta">
+      Индивидуальный проект · Белый Александр Николаевич, 10 класс<br>
+      Научный руководитель: Скитева Марина Александровна
+    </div>
+  </div>
+  <div class="f-right">
+    МАОУ «Гимназия №82<br>им. 30-й Иркутской Дивизии»<br>
+    г. Краснодар, 2026
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════
+   NAV + THEME
+═══════════════════════════════════ */
+function toggleNav() {
+  document.getElementById('navMenu').classList.toggle('open');
+}
+function closeNav() {
+  document.getElementById('navMenu').classList.remove('open');
+}
+function toggleTheme() {
+  var d = document.documentElement;
+  var isDark = d.getAttribute('data-theme') === 'dark';
+  d.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '☾' : '☀';
+}
+
+/* ═══════════════════════════════════
+   SCROLL PROGRESS + NAV SCROLL
+═══════════════════════════════════ */
+window.addEventListener('scroll', function() {
+  var s = document.documentElement.scrollTop;
+  var h = document.documentElement.scrollHeight - window.innerHeight;
+  if (h > 0) document.getElementById('progress').style.width = (s / h * 100) + '%';
+  document.getElementById('mainNav').classList.toggle('scrolled', s > 60);
+});
+
+/* ═══════════════════════════════════
+   INTERSECTION OBSERVER — REVEAL
+═══════════════════════════════════ */
+var io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) e.target.classList.add('in');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.rv, .rv2, .tl-row, .t-card, .g-card').forEach(function(el) {
+  io.observe(el);
+});
+
+/* ═══════════════════════════════════
+   HERO COUNTERS
+═══════════════════════════════════ */
+function animCount(el, to, suf) {
+  var start = performance.now();
+  var dur = 1400;
+  function step(ts) {
+    var p = Math.min((ts - start) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * to) + (suf || '');
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+var statsIO = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.stat-n[data-to]').forEach(function(el) {
+        animCount(el, +el.dataset.to, el.dataset.suf || '');
+      });
+      statsIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+var hs = document.querySelector('.h-stats');
+if (hs) statsIO.observe(hs);
+
+/* ═══════════════════════════════════
+   THEATER CARDS EXPAND
+═══════════════════════════════════ */
+function toggleCard(btn) {
+  var ex = btn.nextElementSibling;
+  var open = ex.classList.toggle('open');
+  btn.textContent = open ? '▾ Скрыть' : '▸ Подробнее';
+}
+
+/* ═══════════════════════════════════
+   BAR CHART ANIMATION
+═══════════════════════════════════ */
+var barIO = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.br-fill').forEach(function(b) {
+        b.style.width = b.dataset.w + '%';
+      });
+      barIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.35 });
+document.querySelectorAll('.chart-box').forEach(function(c) { barIO.observe(c); });
+
+/* ═══════════════════════════════════
+   DONUT CHART
+═══════════════════════════════════ */
+(function() {
+  var svg = document.getElementById('donutSvg');
+  if (!svg) return;
+  var data = [{v:54,c:'#c04040'},{v:22,c:'#8b1a2e'},{v:18,c:'#c4943c'},{v:6,c:'#555'}];
+  var r = 48, cx = 65, cy = 65, sw = 22;
+  var circ = 2 * Math.PI * r;
+  var off = 0;
+  data.forEach(function(d) {
+    var dash = circ * (d.v / 100);
+    var gap = circ - dash;
+    var c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
+    c.setAttribute('fill','none'); c.setAttribute('stroke', d.c); c.setAttribute('stroke-width', sw);
+    c.setAttribute('stroke-dasharray', dash + ' ' + gap);
+    c.setAttribute('stroke-dashoffset', -off);
+    c.setAttribute('transform', 'rotate(-90 ' + cx + ' ' + cy + ')');
+    svg.appendChild(c);
+    off += dash;
+  });
+})();
+
+/* ═══════════════════════════════════
+   QUIZ ENGINE
+═══════════════════════════════════ */
+var QD = [
+  {q:'В каком году основан Екатеринодар — нынешний Краснодар?',o:['1793','1820','1850','1879'],c:0,e:'Екатеринодар основан в 1793 году черноморскими казаками как военная крепость. В 1920 году переименован в Краснодар.'},
+  {q:'Кто спроектировал первый каменный театр Екатеринодара (1879)?',o:['Иван Черник','Иван Мальгерб','Александр Брюллов','Константин Тон'],c:1,e:'Архитектор Иван Клементьевич Мальгерб создал первую профессиональную театральную сцену Кубани.'},
+  {q:'В каком году создан Краснодарский театр драмы?',o:['1905','1917','1920','1933'],c:2,e:'Театр драмы основан в 1920 году — сразу после переименования города и прихода советской власти.'},
+  {q:'Имя какого писателя носит Театр драмы Краснодара?',o:['Льва Толстого','Антона Чехова','Максима Горького','Александра Островского'],c:2,e:'С 1964 года театр носит имя Максима Горького. Академический статус — с 2009 года.'},
+  {q:'Когда основан Краснодарский театр кукол?',o:['1920','1933','1936','1950'],c:2,e:'Театр кукол основан в 1936 году — один из старейших кукольных театров России.'},
+  {q:'Чем уникален Театр балета им. Григоровича в России?',o:['Самый большой зал','Единственный региональный театр чисто балетного жанра','Старейшая балетная труппа','Первый театр с частным финансированием'],c:1,e:'Единственный в стране региональный театр, специализирующийся исключительно на балете. Открыт в 2011 году.'},
+  {q:'В каком году открылся Театр балета Юрия Григоровича?',o:['2005','2009','2011','2015'],c:2,e:'Театр открылся в 2011 году при непосредственном участии легендарного балетмейстера. Академический с 2020-го.'},
+  {q:'Сколько мест в главном зале Театра драмы им. Горького?',o:['500','750','990','1200'],c:2,e:'Главный зрительный зал вмещает около 990 зрителей. Также есть малая сцена.'},
+  {q:'В каком году основан Музыкальный театр Краснодара?',o:['1920','1933','1936','1945'],c:1,e:'Музыкальный театр основан в 1933-м как Театр музыкальной комедии. Реконструирован в 2009–2011 гг.'},
+  {q:'Сколько месяцев Краснодар был под оккупацией в ВОВ?',o:['2 месяца','6 месяцев','12 месяцев','18 месяцев'],c:1,e:'Август 1942 — февраль 1943: около 6 месяцев. Многие театральные здания разрушены, труппы эвакуированы.'},
+  {q:'В каком городе края летом особенно активна гастрольная жизнь?',o:['Армавир','Новороссийск','Сочи','Анапа'],c:2,e:'Сочи принимает масштабные летние гастрольные туры из Москвы и Петербурга каждый сезон.'},
+  {q:'Какой жанр представляет Музыкальный театр Краснодара?',o:['Опера','Балет','Оперетта и мюзикл','Кукольный театр'],c:2,e:'Специализируется на оперетте и мюзикле. Располагает оркестром, хором и балетной труппой.'},
+  {q:'Главная особенность театра в сравнении с кино?',o:['Дешевле','Живое взаимодействие актёра и зрителя в одном пространстве','Можно пересмотреть','Лучшие спецэффекты'],c:1,e:'Театр уникален живым присутствием: каждый спектакль неповторим, актёр и зритель — в едином пространстве.'},
+  {q:'Сколько учащихся гимназии №82 участвовали в анкетировании?',o:['50','75','87','120'],c:2,e:'В феврале 2026 года анкету заполнили 87 учащихся 10–11 классов — анонимно, во время классного часа.'},
+  {q:'Какой % опрошенных посещает театр регулярно?',o:['6%','12%','22%','34%'],c:1,e:'Лишь 12% — регулярные зрители. Зато 46% ходят хотя бы иногда, а 40% позитивно относятся к театру.'}
+];
+
+var qi = 0, sc = 0, ans = [], answered = false, tid = null, tl = 20;
+var TMAX = 20;
+
+function renderQ() {
+  var box = document.getElementById('qBox');
+  if (!box) return;
+  if (qi >= QD.length) { showRes(); return; }
+  var q = QD[qi];
+  var dots = QD.map(function(_, i) {
+    var cls = 'q-d';
+    if (i === qi) cls += ' active';
+    else if (i < qi) cls += ans[i] === QD[i].c ? ' ok' : ' bad';
+    return '<div class="' + cls + '"></div>';
+  }).join('');
+  var opts = q.o.map(function(o, i) {
+    return '<button class="q-opt" onclick="pick(' + i + ')"><div class="q-letter">' + 'АБВГ'[i] + '</div>' + esc(o) + '</button>';
+  }).join('');
+  box.innerHTML =
+    '<div class="q-dots">' + dots + '</div>' +
+    '<div class="q-timer-row"><div class="q-t-bar"><div class="q-t-fill" id="tFill" style="width:100%"></div></div><div class="q-t-num" id="tNum">' + TMAX + '</div></div>' +
+    '<div class="q-ctr">Вопрос ' + (qi+1) + ' из ' + QD.length + '</div>' +
+    '<div class="q-text">' + esc(q.q) + '</div>' +
+    '<div class="q-opts">' + opts + '</div>' +
+    '<div class="q-exp" id="qExp">' + esc(q.e) + '</div>' +
+    '<div class="q-foot"><div class="q-sc">Счёт: <span>' + sc + '</span> / ' + qi + '</div>' +
+    '<button class="btn-next" id="bNext" onclick="nextQ()">' + (qi < QD.length-1 ? 'Следующий →' : 'Результат') + '</button></div>';
+  answered = false;
+  startTimer();
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function startTimer() {
+  clearInterval(tid);
+  tl = TMAX;
+  tid = setInterval(function() {
+    tl--;
+    var fill = document.getElementById('tFill');
+    var num = document.getElementById('tNum');
+    if (fill) fill.style.width = (tl / TMAX * 100) + '%';
+    if (fill) { fill.classList.toggle('warn', tl <= 10 && tl > 5); fill.classList.toggle('danger', tl <= 5); }
+    if (num) num.textContent = tl;
+    if (tl <= 0) { clearInterval(tid); if (!answered) autoFail(); }
+  }, 1000);
+}
+
+function autoFail() {
+  answered = true; ans[qi] = -1;
+  document.querySelectorAll('.q-opt').forEach(function(o, j) {
+    o.disabled = true;
+    if (j === QD[qi].c) o.classList.add('correct');
+  });
+  var exp = document.getElementById('qExp');
+  if (exp) exp.classList.add('show');
+  var bn = document.getElementById('bNext');
+  if (bn) bn.classList.add('on');
+}
+
+function pick(i) {
+  if (answered) return;
+  clearInterval(tid);
+  answered = true;
+  ans[qi] = i;
+  if (i === QD[qi].c) sc++;
+  document.querySelectorAll('.q-opt').forEach(function(o, j) {
+    o.disabled = true;
+    if (j === QD[qi].c) o.classList.add('correct');
+    if (j === i && i !== QD[qi].c) o.classList.add('wrong');
+  });
+  var exp = document.getElementById('qExp');
+  if (exp) exp.classList.add('show');
+  var bn = document.getElementById('bNext');
+  if (bn) bn.classList.add('on');
+}
+
+function nextQ() {
+  if (!answered) return;
+  qi++;
+  renderQ();
+}
+
+function showRes() {
+  clearInterval(tid);
+  var pct = Math.round(sc / QD.length * 100);
+  var wrong = QD.length - sc;
+  var title, msg;
+  if (sc >= 13) { title = 'Великолепно! 🏆'; msg = 'Вы настоящий знаток театральной культуры Краснодарского края!'; }
+  else if (sc >= 10) { title = 'Отлично! 🌟'; msg = 'Хорошие знания о театрах края. Продолжайте изучать тему.'; }
+  else if (sc >= 7) { title = 'Хорошо! 👍'; msg = 'Базовые знания есть. Пройдите материал ещё раз.'; }
+  else { title = 'Учитесь! 📚'; msg = 'Театральная культура — огромный мир. Изучите работу и попробуйте снова.'; }
+
+  var r = 46, cx = 55, cy = 55, circ = 2 * Math.PI * r;
+  var dash = circ * (pct / 100);
+
+  var box = document.getElementById('qBox');
+  if (!box) return;
+  box.innerHTML =
+    '<div class="q-result">' +
+    '<div class="res-circle"><svg viewBox="0 0 110 110">' +
+    '<circle cx="55" cy="55" r="' + r + '" fill="none" stroke="rgba(196,148,60,.1)" stroke-width="10"/>' +
+    '<circle cx="55" cy="55" r="' + r + '" fill="none" stroke="' + (sc>=10?'#52a870':sc>=7?'#c4943c':'#c04040') + '" stroke-width="10"' +
+    ' stroke-dasharray="' + dash + ' ' + circ + '" stroke-dashoffset="' + (circ/4) + '"' +
+    ' style="transition:stroke-dasharray 1.4s cubic-bezier(.16,1,.3,1)" id="resArc"/>' +
+    '</svg>' +
+    '<div class="res-over"><div class="res-big">' + sc + '</div><div class="res-of">из ' + QD.length + '</div></div></div>' +
+    '<div class="res-title">' + title + '</div>' +
+    '<p class="res-msg">' + msg + '</p>' +
+    '<div class="res-stats">' +
+    '<div class="rs"><div class="rs-n" style="color:#52a870">' + sc + '</div><div class="rs-l">Верных</div></div>' +
+    '<div class="rs"><div class="rs-n" style="color:#c04040">' + wrong + '</div><div class="rs-l">Ошибок</div></div>' +
+    '<div class="rs"><div class="rs-n">' + pct + '%</div><div class="rs-l">Результат</div></div>' +
+    '</div>' +
+    '<button class="btn btn-gold" onclick="restartQ()" style="margin-top:1rem">↺ Пройти снова</button>' +
+    '</div>';
+
+  setTimeout(function() {
+    var a = document.getElementById('resArc');
+    if (a) a.setAttribute('stroke-dasharray', dash + ' ' + circ);
+  }, 120);
+}
+
+function restartQ() {
+  qi = 0; sc = 0; ans = []; answered = false;
+  clearInterval(tid);
+  renderQ();
+}
+
+/* Start quiz */
+renderQ();
+</script>
+</body>
+</html>
